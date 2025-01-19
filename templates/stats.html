@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+
+{% block title %}Stats - MRS{% endblock %}
+
+{% block content %}
+<h2 class="mb-4">Admin Statistics</h2>
+
+<div class="alert alert-info">
+    <strong>Total Attendees Across All Meetings:</strong> {{ total_attendees }}
+</div>
+
+<table class="table table-bordered table-hover">
+    <thead>
+        <tr>
+            <th>Room Name</th>
+            <th>Location</th>
+            <th>Number of Meetings</th>
+            <th>Total Attendees</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for stat in rooms_stats %}
+        <tr>
+            <td>{{ stat.room.name }}</td>
+            <td>{{ stat.room.location }}</td>
+            <td>{{ stat.num_meetings }}</td>
+            <td>{{ stat.attendees }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

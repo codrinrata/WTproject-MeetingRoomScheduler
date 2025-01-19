@@ -1,0 +1,68 @@
+{% extends "base.html" %}
+
+{% block title %}Rooms - MRS{% endblock %}
+
+{% block content %}
+<h2 class="mb-4">Meeting Rooms</h2>
+
+<div class="accordion" id="roomsAccordion">
+    {% for room in rooms %}
+    <div class="accordion-item">
+        <h2 class="accordion-header" id="heading-{{ room.id }}">
+            <div class="d-flex justify-content-between w-100">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse-{{ room.id }}" aria-expanded="false" aria-controls="collapse-{{ room.id }}">
+                    Room #{{ room.id }}: {{ room.name }} - {{ room.location }}
+                </button>
+                {% if session.get('is_admin') %}
+                <form action="{{ url_for('delete_room', room_id=room.id) }}" method="POST" style="display:inline;">
+                    <button type="submit" class="btn btn-danger btn-sm">Delete Room</button>
+                </form>
+                {% endif %}
+            </div>
+        </h2>
+        <div id="collapse-{{ room.id }}" class="accordion-collapse collapse" aria-labelledby="heading-{{ room.id }}" data-bs-parent="#roomsAccordion">
+            <div class="accordion-body">
+                <h5>Meetings Scheduled:</h5>
+                {% set room_meetings = meetings | selectattr("room_id", "equalto", room.id) | list %}
+                {% if room_meetings %}
+                <ul>
+                    {% for meeting in room_meetings %}
+                    <li><strong>{{ meeting.title }}</strong>: {{ meeting.start_time }} - {{ meeting.end_time }}</li>
+                    {% endfor %}
+                </ul>
+                {% else %}
+                <p>No meetings scheduled for this room.</p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+
+{% if session.get('is_admin') %}
+<h3 class="mt-4">Add New Room</h3>
+<form action="{{ url_for('display_rooms') }}" method="POST">
+    <div class="form-group">
+        <label for="name">Room Name</label>
+        <input type="text" id="name" name="name" class="form-control" required>
+    </div>
+    <div class="form-group">
+        <label for="location">Location</label>
+        <input type="text" id="location" name="location" class="form-control" required>
+    </div>
+    <button type="submit" class="btn btn-primary mt-2">Add Room</button>
+</form>
+{% endif %}
+
+{% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+    <div class="mt-4">
+        {% for category, message in messages %}
+        <div class="alert alert-{{ category }}" role="alert">
+            {{ message }}
+        </div>
+        {% endfor %}
+    </div>
+    {% endif %}
+{% endwith %}
+{% endblock %}

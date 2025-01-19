@@ -1,0 +1,64 @@
+{% extends "base.html" %}
+
+{% block title %}Login - MRS{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card shadow-sm">
+                <div class="card-body">
+                    <h2 class="text-center mb-4">Login</h2>
+                    <form action="/" method="POST">
+                        <div class="mb-4">
+                            <div class="form-check form-switch">
+                                <input class="form-check-input" type="checkbox" id="roleSwitch" name="is_admin" value="admin">
+                                <label class="form-check-label" for="roleSwitch" id="roleLabel">User</label>
+                            </div>
+                        </div>
+                        
+                        <div class="mb-4" id="passwordContainer" style="display: none;">
+                            <label for="password" class="form-label">Password:</label>
+                            <input type="password" class="form-control" name="password" id="password">
+                        </div>
+                        
+                        <div class="d-grid">
+                            <button type="submit" class="btn btn-primary">Login</button>
+                        </div>
+                        
+                        {% with messages = get_flashed_messages(with_categories=true) %}
+                            {% if messages %}
+                                <div class="mt-3">
+                                    <ul class="list-unstyled">
+                                        {% for category, message in messages %}
+                                            <li class="alert alert-{{ category }}">{{ message }}</li>
+                                        {% endfor %}
+                                    </ul>
+                                </div>
+                            {% endif %}
+                        {% endwith %}
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const roleSwitch = document.getElementById('roleSwitch');
+        const roleLabel = document.getElementById('roleLabel');
+        const passwordContainer = document.getElementById('passwordContainer');
+
+        roleSwitch.addEventListener('change', function () {
+            if (this.checked) {
+                roleLabel.textContent = 'Admin';
+                passwordContainer.style.display = 'block';
+            } else {
+                roleLabel.textContent = 'User';
+                passwordContainer.style.display = 'none';
+            }
+        });
+    });
+</script>
+{% endblock %}

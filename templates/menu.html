@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+
+{% block title %}Menu - MRS{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8 text-center">
+            <h1 class="display-4">Welcome to the Meeting Room Scheduler</h1>
+            <p class="lead">Efficiently manage room bookings and meetings in your organization</p>
+            <hr>
+            <form method="POST" class="mt-4">
+                <div class="row justify-content-center {% if not session.get('is_admin', False) %}justify-content-evenly{% endif %}">
+                    <div class="col-md-4 d-flex align-items-stretch">
+                        <div class="card w-100">
+                            <div class="card-body d-flex flex-column">
+                                <h5 class="card-title">Check Room Availability</h5>
+                                <p class="card-text flex-grow-1">Find available rooms for your meeting quickly and easily.</p>
+                                <button type="submit" name="option" value="rooms" class="btn btn-primary mt-auto">Select Rooms</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4 d-flex align-items-stretch">
+                        <div class="card w-100">
+                            <div class="card-body d-flex flex-column">
+                                <h5 class="card-title">Schedule a Meeting</h5>
+                                <p class="card-text flex-grow-1">Book a room for your next meeting with just a few clicks.</p>
+                                <button type="submit" name="option" value="meetings" class="btn btn-primary mt-auto">Select Meetings</button>
+                            </div>
+                        </div>
+                    </div>
+                    {% if session.get('is_admin', False) %}
+                    <div class="col-md-4 d-flex align-items-stretch">
+                        <div class="card w-100">
+                            <div class="card-body d-flex flex-column">
+                                <h5 class="card-title">Admin Dashboard</h5>
+                                <p class="card-text flex-grow-1">Manage rooms, check bookings, and gain insights into room usage.</p>
+                                <button type="submit" name="option" value="stats" class="btn btn-primary mt-auto">View Stats</button>
+                            </div>
+                        </div>
+                    </div>
+                    {% endif %}
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

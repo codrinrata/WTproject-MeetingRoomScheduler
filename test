@@ -1,5 +1,0 @@
-from werkzeug.security import generate_password_hash, check_password_hash
-
-s = generate_password_hash("user")
-print(s)
-print(check_password_hash("scrypt:32768:8:1$XIRQ9llMmakkWeKQ$1153f97287bd0da28fd75329e5ec948fef3d94c0bec08aa7797b15701944064102cb71438a558c28696bbca1b96c8429ed216f74f8c5a9022a48d7546388aa6f", "user"))
